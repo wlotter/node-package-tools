@@ -3,10 +3,12 @@
   "version": "0.0.1",
   "private": true,
   "description": "",
-  "main": "index.js",
   "scripts": {
     "babel": "npx babel src --out-dir target",
     "babel:watch": "npx babel src --watch --out-dir target"
+  },
+  "bin": {
+    "npt": "target/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +18,7 @@
     "@babel/preset-env": "7.3.1"
   },
   "dependencies": {
-    "chalk": "2.4.2"
+    "chalk": "2.4.2",
+    "yargs": "^12.0.5"
   }
 }
