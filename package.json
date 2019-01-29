@@ -5,7 +5,8 @@
   "description": "",
   "scripts": {
     "babel": "npx babel src --out-dir target",
-    "babel:watch": "npx babel src --watch --out-dir target"
+    "babel:watch": "npx babel src --watch --out-dir target",
+    "relink": "npm unlink && npm run babel && npm link"
   },
   "bin": {
     "npt": "target/index.js"
