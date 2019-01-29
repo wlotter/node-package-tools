@@ -1,0 +1,18 @@
+{
+  "name": "package-template-tool",
+  "version": "0.0.1",
+  "private": true,
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "babel": "npx babel src --out-dir target",
+    "babel:watch": "npx babel src --watch --out-dir target"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1"
+  }
+}
