@@ -26,5 +26,9 @@ export function doesConfigExist(configOption) {
 
 export function writeJsonToConfig(jsonObj) {
 	if (!isConfigValid(jsonObj)) throw new Error('Invalid configuration option');
-	writeFileSync.writeFileSync(configPath, JSON.stringify(jsonObj));
+	writeFileSync(configPath, JSON.stringify(jsonObj));
+}
+
+export function getCustomConfig() {
+	return JSON.parse(readFileSync(configPath));
 }

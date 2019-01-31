@@ -13,6 +13,21 @@ export default function config(argv) {
 		logger.error('no config option ' + option);
 		return;
 	}
+
+	if (argv.s) {
+		setConfigInFile(option, argv.s);
+	} else {
+		writeConfigToConsole(option);
+	}
+}
+
+function writeConfigToConsole(option) {
 	const configuration = ConfigIO.getConfig();
-	console.log(configuration[option])
+	logger.result(configuration[option]);
+}
+
+function setConfigInFile(option, value) {
+	const customConfiguration = ConfigIO.getCustomConfig();
+	customConfiguration[option] = value;
+	ConfigIO.writeJsonToConfig(customConfiguration);
 }

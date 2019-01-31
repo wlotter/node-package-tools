@@ -50,6 +50,10 @@ class Logger {
 		console.log(message);
 	}
 
+	result(message) {
+		console.log(Chalk.blue(message));
+	}
+
 }
 
 export default function getInstance() {
