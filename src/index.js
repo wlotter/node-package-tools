@@ -3,7 +3,7 @@
 import config from './commands/config/config';
 import configOptions from './commands/config/config-options';
 
-require('yargs') // eslint-disable-line
+require('yargs')
   .command('config [option]', 'read and edit config', (yargs) => {
     yargs
       .positional('option', {

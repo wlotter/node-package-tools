@@ -51,7 +51,7 @@ class Logger {
 	}
 
 	result(message) {
-		console.log(Chalk.blue(message));
+		console.log(Chalk.blue.bold(message));
 	}
 
 }
