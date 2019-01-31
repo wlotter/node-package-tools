@@ -1,5 +1,5 @@
-import * as ConfigIO from '../configuration/configuration-io';
-import Logger from '../logger';
+import * as ConfigIO from '../../configuration/configuration-io';
+import Logger from '../../logger';
 
 const logger = new Logger();
 

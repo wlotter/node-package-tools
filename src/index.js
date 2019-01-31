@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-import config from './commands/config';
+import config from './commands/config/config';
+import configOptions from './commands/config/config-options';
 
 require('yargs') // eslint-disable-line
   .command('config [option]', 'read and edit config', (yargs) => {
@@ -9,5 +10,6 @@ require('yargs') // eslint-disable-line
         describe: 'config option to modify',
         type: 'string'
       })
-  }, config)
+	}, config)
+	.options(configOptions)
   .argv
