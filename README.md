@@ -27,3 +27,11 @@ npm unlink
 ```
 
 in the project link when you're done to remove these symlinks!
+
+Dependency Docs
+---------------
+
+| Package | Link |
+| ------- | ---- |
+| tar     | [npm](https://www.npmjs.com/package/tar) |
+
