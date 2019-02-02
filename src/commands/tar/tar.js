@@ -1,16 +1,26 @@
+import Tar from 'tar';
+
 import * as ConfigIO from '../../configuration/configuration-io';
 import Logger from '../../logger';
-import Tar from 'tar';
 
 const logger = new Logger();
 
 export default function tar(argv) {
 	const config = ConfigIO.getConfig();
-	console.log(config['build-src']);
+	console.log(config);
+
+	const tarName = resolveTarNameFromConfig(config);
 
 	Tar.create({
 		gzip: true,
-		file: 'my-tarball.tgz',
+		file: tarName,
 		sync: true
-	}, config['build-src']);
+	}, config['tar/src']);
+}
+
+function resolveTarNameFromConfig(config) {
+	if (config['tar/name']) return config['tar/name'];
+
+	const packageInfo = ConfigIO.getPackageInfo();
+	return packageInfo.name + '-' + packageInfo.version + '.tgz';
 }
