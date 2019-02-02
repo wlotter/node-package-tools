@@ -1,3 +1,5 @@
 /node_modules
 /target
 /config/config.json
+
+/.DS_store
