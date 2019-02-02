@@ -10,10 +10,10 @@ const LEVEL = {
 	TRACE: 4
 };
 
-const ERROR_PREFIX = Chalk.bgRed.black('ERR:') + ' ';
+const ERROR_PREFIX = Chalk.bold.bgRedBright.black('ERR:') + ' ';
 const ERROR_STYLE = Chalk.redBright;
 
-const WARN_PREFIX = Chalk.bgYellow.black('WARN:') + ' ';
+const WARN_PREFIX = Chalk.bold.bgKeyword('orange').black('WARN:') + ' ';
 const WARN_STYLE = Chalk.keyword('orange');
 
 const DEBUG_PREFIX = Chalk.bgBlue.black('DEBUG:') + ' ';
