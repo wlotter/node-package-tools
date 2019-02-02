@@ -27,7 +27,9 @@ function writeConfigToConsole(option) {
 }
 
 function setConfigInFile(option, value) {
+	const setValue = value.length < 2 ? value[0] : value;
+
 	const customConfiguration = ConfigIO.getCustomConfig();
-	customConfiguration[option] = value;
+	customConfiguration[option] = setValue;
 	ConfigIO.writeJsonToConfig(customConfiguration);
 }
