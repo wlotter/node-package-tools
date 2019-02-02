@@ -10,16 +10,13 @@ import tarOptions from './commands/tar/tar-options';
 
 require('yargs')
 	.options(globalOptions)
-  .command('config [option]', 'read and edit config', (yargs) => {
-    yargs
+  .command('config [option]', 'read and edit config', yargs => yargs
       .positional('option', {
         describe: 'config option to modify',
         type: 'string'
-      })
-	}, config)
-	.options(configOptions)
-	.command('tar', 'create a tarball', (yargs) => {
-
-	}, tar)
-	.options(tarOptions)
+      }).options(configOptions)
+	, config)
+	.command('tar', 'create a tarball',  yargs => yargs
+		.options(tarOptions)
+	, tar)
   .argv

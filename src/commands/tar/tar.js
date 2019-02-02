@@ -7,15 +7,16 @@ const logger = new Logger();
 
 export default function tar(argv) {
 	const config = ConfigIO.getConfig();
-	console.log(config);
 
-	const tarName = resolveTarNameFromConfig(config);
+	const {n, s} = argv;
+	const tarName = n ? n : resolveTarNameFromConfig(config);
+	const tarSrc = s ? s : config['tar/src'];
 
 	Tar.create({
 		gzip: true,
 		file: tarName,
 		sync: true
-	}, config['tar/src']);
+	}, tarSrc);
 }
 
 function resolveTarNameFromConfig(config) {
