@@ -5,6 +5,7 @@ import tarCommand from './tar/tar';
 
 function preCommand(argv) {
 	if (argv.verbose) Logger.setLevel(LEVEL.INFO);
+	if (argv.logger) Logger.setLevel(LEVEL[argv.logger]);
 }
 
 function commandify(command) {

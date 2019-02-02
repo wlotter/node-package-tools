@@ -16,6 +16,9 @@ const ERROR_STYLE = Chalk.redBright;
 const WARN_PREFIX = Chalk.bgYellow.black('WARN:') + ' ';
 const WARN_STYLE = Chalk.keyword('orange');
 
+const DEBUG_PREFIX = Chalk.bgBlue.black('DEBUG:') + ' ';
+const DEBUG_STYLE = Chalk.blue;
+
 class Logger {
 
 	constructor() {
@@ -42,7 +45,7 @@ class Logger {
 
 	debug(message) {
 		if (this.level < LEVEL.DEBUG) return;
-		console.log(message);
+		console.log(DEBUG_PREFIX + DEBUG_STYLE(message));
 	}
 
 	trace(message) {

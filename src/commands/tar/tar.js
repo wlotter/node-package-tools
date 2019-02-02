@@ -22,6 +22,8 @@ export default function tar(argv) {
 function resolveTarNameFromConfig(config) {
 	if (config['tar/name']) return config['tar/name'];
 
+	Logger.debug('No configured tar/name - resolving from package info...')
+
 	const packageInfo = ConfigIO.getPackageInfo();
 	return packageInfo.name + '-' + packageInfo.version + '.tgz';
 }
