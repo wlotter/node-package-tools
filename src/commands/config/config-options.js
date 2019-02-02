@@ -5,6 +5,13 @@ const options = {
 		type: 'string',
 		array: true,
 		global: false
+	},
+	'a': {
+		alias: 'all',
+		describe: 'print all config',
+		type: 'boolean',
+		global: false,
+		conflicts: 's'
 	}
 }
 

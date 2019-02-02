@@ -3,6 +3,12 @@ import Logger from '../../logger';
 
 export default function config(argv) {
 	const option = argv.option;
+
+	if (argv.all) {
+		Logger.result(JSON.stringify(ConfigIO.getConfig(), null, '\t'));
+		return;
+	}
+
 	if (!option) {
 		Logger.error('an option needs to be supplied');
 		return;
