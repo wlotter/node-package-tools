@@ -2,10 +2,9 @@
 
 import globalOptions from './global-options';
 
-import config from './commands/config/config';
-import configOptions from './commands/config/config-options';
+import {config, tar} from './commands/commands';
 
-import tar from './commands/tar/tar';
+import configOptions from './commands/config/config-options';
 import tarOptions from './commands/tar/tar-options';
 
 require('yargs')

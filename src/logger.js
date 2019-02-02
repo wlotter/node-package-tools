@@ -56,6 +56,6 @@ class Logger {
 
 }
 
-export default function getInstance() {
-	return instance ? instance : new Logger();
-}
+export default new Logger();
+
+export {LEVEL};

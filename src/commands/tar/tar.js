@@ -3,20 +3,20 @@ import Tar from 'tar';
 import * as ConfigIO from '../../configuration/configuration-io';
 import Logger from '../../logger';
 
-const logger = new Logger();
-
 export default function tar(argv) {
 	const config = ConfigIO.getConfig();
 
-	const {n, s} = argv;
-	const tarName = n ? n : resolveTarNameFromConfig(config);
-	const tarSrc = s ? s : config['tar/src'];
+	const {name, src} = argv;
+	const tarName = name ? name : resolveTarNameFromConfig(config);
+	const tarSrc = src ? src : config['tar/src'];
 
 	Tar.create({
 		gzip: true,
 		file: tarName,
 		sync: true
 	}, tarSrc);
+
+	Logger.result('Created ' + tarName);
 }
 
 function resolveTarNameFromConfig(config) {
