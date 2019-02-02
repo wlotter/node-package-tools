@@ -12,6 +12,14 @@ const options = {
 		type: 'boolean',
 		global: false,
 		conflicts: 's'
+	},
+	't': {
+		alias: 'test',
+		describe: 'test config',
+		type: 'string',
+		array: true,
+		global: false,
+		conflicts: ['s', 'a']
 	}
 }
 

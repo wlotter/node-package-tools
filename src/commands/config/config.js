@@ -1,11 +1,13 @@
-import * as ConfigIO from '../../configuration/configuration-io';
+import Config from '../../configuration/io';
+import validate from '../../configuration/validator';
+
 import Logger from '../../logger';
 
 export default function config(argv) {
 	const option = argv.option;
 
 	if (argv.all) {
-		Logger.result(JSON.stringify(ConfigIO.getConfig(), null, '\t'));
+		Logger.result(JSON.stringify(Config.getConfig(), null, '\t'));
 		return;
 	}
 
@@ -13,27 +15,18 @@ export default function config(argv) {
 		Logger.error('an option needs to be supplied');
 		return;
 	}
-	if (!ConfigIO.doesConfigExist(option)) {
-		Logger.error('no config option ' + option);
-		return;
-	}
 
-	if (argv.s) {
-		setConfigInFile(option, argv.s);
+	if (argv.s || argv.t) {
+		const value = argv.s ? argv.s : argv.t;
+		const isValid = validate(option, value);
+
+		if (!isValid) {
+			Logger.result('Invalid config value');
+			return;
+		}
+
+		argv.s && Config.write(option, value);
 	} else {
-		writeConfigToConsole(option);
+		Logger.result(Config.read(option));
 	}
-}
-
-function writeConfigToConsole(option) {
-	const configuration = ConfigIO.getConfig();
-	Logger.result(configuration[option]);
-}
-
-function setConfigInFile(option, value) {
-	const setValue = value.length < 2 ? value[0] : value;
-
-	const customConfiguration = ConfigIO.getCustomConfig();
-	customConfiguration[option] = setValue;
-	ConfigIO.writeJsonToConfig(customConfiguration);
 }

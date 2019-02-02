@@ -1,16 +1,14 @@
 import Tar from 'tar';
 
-import * as ConfigIO from '../../configuration/configuration-io';
+import Config from '../../configuration/io';
 import Logger from '../../logger';
 
 const TAR_REGEX = /^.*\.(tgz|tar\.gz)$/
 
 export default function tar(argv) {
-	const config = ConfigIO.getConfig();
-
 	const {name, src} = argv;
-	const tarName = name ? name : resolveTarNameFromConfig(config);
-	const tarSrc = src ? src : config['tar/src'];
+	const tarName = name ? name : resolveTarName();
+	const tarSrc = src ? src : Config.read('tar.src');
 
 	if (!TAR_REGEX.test(tarName)) {
 		Logger.warn(tarName + ' does not have an appropriate file extension!')
@@ -25,11 +23,11 @@ export default function tar(argv) {
 	Logger.result('Created ' + tarName);
 }
 
-function resolveTarNameFromConfig(config) {
-	if (config['tar/name']) return config['tar/name'];
+function resolveTarName() {
+	if (Config.read('tar.name')) return Config.read('tar.name');
 
 	Logger.debug('No configured tar/name - resolving from package info...')
 
-	const packageInfo = ConfigIO.getPackageInfo();
+	const packageInfo = Config.getPackageInfo();
 	return packageInfo.name + '-' + packageInfo.version + '.tgz';
 }
