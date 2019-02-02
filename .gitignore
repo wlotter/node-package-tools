@@ -1,5 +1,5 @@
 /node_modules
 /target
-/config/config.json
+/npt.json
 
 /.DS_store

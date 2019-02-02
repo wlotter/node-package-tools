@@ -1,8 +1,10 @@
-import {readFileSync, writeFileSync} from 'fs';
+import {readFileSync, writeFileSync, existsSync, openSync} from 'fs';
 import {join} from 'path';
 
 const defaultConfigPath = join(__dirname, '..', '..', 'config', 'default-config.json');
-const configPath = join(__dirname, '..', '..', 'config', 'config.json');;
+
+const CONFIG_NAME = 'npt.json'
+const configPath = join(CONFIG_NAME);;
 
 function getDefaultConfig() {
 	return JSON.parse(readFileSync(defaultConfigPath))
@@ -16,7 +18,8 @@ function isConfigValid(jsonObj) {
 }
 
 export function getConfig() {
-	return {...getDefaultConfig(), ...JSON.parse(readFileSync(configPath))}
+	const customConfig = existsSync(configPath) ? JSON.parse(readFileSync(configPath)) : {};
+	return {...getDefaultConfig(), ...customConfig}
 }
 
 export function doesConfigExist(configOption) {
@@ -26,11 +29,12 @@ export function doesConfigExist(configOption) {
 
 export function writeJsonToConfig(jsonObj) {
 	if (!isConfigValid(jsonObj)) throw new Error('Invalid configuration option');
+	if (!existsSync(configPath)) openSync(configPath, 'w');
 	writeFileSync(configPath, JSON.stringify(jsonObj, null, '\t'));
 }
 
 export function getCustomConfig() {
-	return JSON.parse(readFileSync(configPath));
+	return existsSync(configPath) ? JSON.parse(readFileSync(configPath)) : {};
 }
 
 export function getPackageInfo() {
