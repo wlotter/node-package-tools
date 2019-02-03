@@ -1,4 +1,6 @@
 import Tar from 'tar';
+import FS from 'fs';
+import Util from 'util';
 
 import Config from '../../configuration/io';
 import Logger from '../../logger';
@@ -14,20 +16,34 @@ export default function tar(argv) {
     Logger.warn(tarName + ' does not have an appropriate file extension!');
   }
 
-  Tar.create({
-    gzip: true,
-    file: tarName,
-    sync: true
-  }, tarSrc);
+  if (!tarSrc || tarSrc.length < 1) {
+    Logger.error('No source files or directories provided');
+    return;
+  }
 
-  Logger.result('Created ' + tarName);
+  Promise.all(tarSrc.map(src => access(src)))
+    .then(()=> {
+      Tar.create({
+        gzip: true,
+        file: tarName,
+        sync: true
+      }, tarSrc);
+      Logger.result('Created ' + tarName);
+    })
+    .catch(err => {
+      Logger.debug(err);
+      Logger.error('One or more of the sources did not exist: ' + tarSrc);
+    })
 }
 
 function resolveTarName() {
-  if (Config.read('tar.name')) return Config.read('tar.name');
+  const configuredTarName = Config.read('tar.name');
+  if (configuredTarName) return configuredTarName;
 
-  Logger.debug('No configured tar/name - resolving from package info...');
+  Logger.debug('No configured tar.name - resolving from package info...');
 
   const packageInfo = Config.getPackageInfo();
   return packageInfo.name + '-' + packageInfo.version + '.tgz';
 }
+
+const access = Util.promisify(FS.access);

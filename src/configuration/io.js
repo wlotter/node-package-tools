@@ -68,7 +68,7 @@ class ConfigLayer {
         return config[key];
       }, this.config);
     } catch (err) {
-      Logger.debug('config key didn\'t exist in config file');
+      Logger.debug('Config key \'' + key + '\' didn\'t exist in config file');
     }
     return value;
   }
