@@ -8,6 +8,16 @@ import {getSpecification} from './validator';
 const CONFIG_NAME = 'npt.json'
 const configPath = join(CONFIG_NAME);
 
+function splitKey(key) {
+	const splitPath = key.split('.');
+	const property = splitPath.pop();
+
+	return {
+		property,
+		splitPath
+	}
+}
+
 class ConfigLayer {
 
 	constructor() {
@@ -27,16 +37,19 @@ class ConfigLayer {
 	}
 
 	_writeKeyOnObj(key, value) {
-		const splitKey = key.split('.');
-		const highestDepthKey = splitKey.pop();
+		const { property, splitPath } = splitKey(key);
 
-		const nestedConfig = splitKey.reduce((config, key) => {
+		const nestedConfig = this._getNestedConfig(splitPath);
+
+		const spec = getSpecification(key);
+		nestedConfig[property] = spec.type === 'array' ? value : value[0];
+	}
+
+	_getNestedConfig(keyArray) {
+		return keyArray.reduce((config, key) => {
 			if (!config[key]) config[key] = {};
 			return config[key];		
 		}, this.config);
-
-		const spec = getSpecification(key);
-		nestedConfig[highestDepthKey] = spec.type === 'array' ? value : value[0];
 	}
 
 	getConfig() {
@@ -47,10 +60,10 @@ class ConfigLayer {
 	read(key) {
 		if (this.needsRefresh) this.refresh();
 		
-		const splitKey = key.split('.');
+		const fullSplitPath = key.split('.');
 		let value = null;
 		try {
-			value = splitKey.reduce((config, key) => {
+			value = fullSplitPath.reduce((config, key) => {
 				if (config[key] === undefined) throw new Error();
 				return config[key]
 			}, this.config);
@@ -70,7 +83,17 @@ class ConfigLayer {
 			this._writeKeyOnObj(key, value);
 		});
 		this._writeJsonToConfig(this.config);
-		this.needsRefresh = true;
+	}
+
+	delete(key) {
+		if (this.needsRefresh) this.refresh();
+		
+		const { property, splitPath } = splitKey(key);
+		const nestedConfig = this._getNestedConfig(splitPath);
+
+		delete nestedConfig[property];
+
+		this._writeJsonToConfig(this.config);
 	}
 
 	getPackageInfo() {

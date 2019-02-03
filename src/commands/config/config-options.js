@@ -20,6 +20,13 @@ const options = {
 		array: true,
 		global: false,
 		conflicts: ['s', 'a']
+	},
+	'd': {
+		alias: 'delete',
+		describe: 'Delete a config option',
+		type: 'boolean',
+		global: false,
+		conflicts: ['s', 't']
 	}
 }
 

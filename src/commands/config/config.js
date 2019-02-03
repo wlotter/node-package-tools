@@ -16,6 +16,11 @@ export default function config(argv) {
 		return;
 	}
 
+	if (argv.delete) {
+		Config.delete(option);
+		return;
+	}
+
 	if (argv.s || argv.t) {
 		const value = argv.s ? argv.s : argv.t;
 		const isValid = validate(option, value);
