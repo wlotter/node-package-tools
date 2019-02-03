@@ -5,8 +5,9 @@
   "description": "",
   "scripts": {
     "babel": "npx babel src --out-dir target",
-		"watcher": "SILENT=true ./babel-watcher.js & echo $! > watcher.pid",
-		"watcher:kill": "kill -9 $(cat watcher.pid) && rm watcher.pid"
+    "watcher": "SILENT=true ./babel-watcher.js & echo $! > watcher.pid",
+    "watcher:kill": "kill -9 $(cat watcher.pid) && rm watcher.pid",
+    "lint": "npx eslint src"
   },
   "bin": {
     "npt": "target/index.js"
@@ -17,7 +18,8 @@
     "@babel/cli": "7.2.3",
     "@babel/core": "7.2.2",
     "@babel/preset-env": "7.3.1",
-    "chokidar": "^2.0.4"
+    "chokidar": "^2.0.4",
+    "eslint": "^5.13.0"
   },
   "dependencies": {
     "chalk": "2.4.2",
