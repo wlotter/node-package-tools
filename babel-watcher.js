@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-// Dev script - I had permission issues when using babels watch open
+// Dev script - I had permission issues when using babels watch option
 
 const Chokidar = require('chokidar');
 const spawn = require('child_process').spawn;
@@ -8,11 +8,14 @@ const fs = require('fs');
 
 var watcher = Chokidar.watch('src', {persistent: true});
 
-watcher
-	.on('add', onAdd)
-  .on('change', onChange)
-  .on('unlink', onUnlink)
-	.on('error', onError)
+// hack to stop an initial onslaught of compiles
+setTimeout(() => {
+	watcher
+		.on('add', onAdd)
+		.on('change', onChange)
+		.on('unlink', onUnlink)
+		.on('error', onError)
+}, 500);
 	
 function onAdd() {
 	babelRecompileAndChmod();
