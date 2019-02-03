@@ -18,27 +18,13 @@ Create a npt.json in the root of your project. This will happen automatically if
 Development
 -----------
 
-To build use:
+To build use `npm run babel`.
 
-```
-npm run babel
-```
+For testing, run `npm link` in the project root. This will create symlinks to the package and it's executable globally (see [npm link](https://docs.npmjs.com/cli/link.html)). Then you can run the scripts specified in the package.json bin property from anywhere.
 
-For testing, run
+Use `npm run babel:watch` when working on the project to recompile as you go!
 
-```
-npm link
-```
-
-in the project root. This will create symlinks to the package and it's executable globally (see [npm link](https://docs.npmjs.com/cli/link.html)). Then you can run the scripts specified in the package.json bin property from anywhere.
-
-Run
-
-```
-npm unlink
-```
-
-in the project link when you're done to remove these symlinks!
+When you're done, run `npm unlink` in the project to remove these symlinks!
 
 Dependency Docs
 ---------------
@@ -49,3 +35,9 @@ Dependency Docs
 | chalk     | [npm chalk](https://www.npmjs.com/package/chalk) |
 | tar       | [npm tar](https://www.npmjs.com/package/tar)     |
 
+Dev Dependency Docs
+---------------
+
+| Package   | Link |
+| --------- | ---- |
+| chokidar  | [npm chokidar](https://www.npmjs.com/package/chokidar) |
