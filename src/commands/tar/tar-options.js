@@ -1,14 +1,14 @@
 const options = {
 	's': {
 		alias: 'src',
-		describe: 'src directories for the tarring',
+		describe: 'Files and directories to add to the tarball',
 		type: 'string',
 		array: true,
 		global: false
 	},
 	'n': {
 		alias: 'name',
-		describe: 'name of the tar',
+		describe: 'Name of the tarball to be created',
 		type: 'string',
 		global: false
 	}

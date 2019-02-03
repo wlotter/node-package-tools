@@ -3,6 +3,18 @@ Package Template Tool
 
 Pet CLI project for dealing with a package template repository.
 
+User Guide
+----------------
+
+Run `npt --help` or `npt [command] --help` to show help (argument information and command summaries).
+
+Create a npt.json in the root of your project. This will happen automatically if you use `npt config` to set a config property.
+
+| Command | Use  |
+| ------- | ---- |
+| config  | Read and set configuration properties |
+| tar     | Create a tarball according to configuration or command line arguments |
+
 Development
 -----------
 
@@ -31,7 +43,9 @@ in the project link when you're done to remove these symlinks!
 Dependency Docs
 ---------------
 
-| Package | Link |
-| ------- | ---- |
-| tar     | [npm](https://www.npmjs.com/package/tar) |
+| Package   | Link |
+| --------- | ---- |
+| yargs     | [npm yargs](https://www.npmjs.com/package/yargs) |
+| chalk     | [npm chalk](https://www.npmjs.com/package/chalk) |
+| tar       | [npm tar](https://www.npmjs.com/package/tar)     |
 

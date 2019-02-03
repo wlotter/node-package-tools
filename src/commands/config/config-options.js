@@ -1,21 +1,21 @@
 const options = {
 	's': {
 		alias: 'set',
-		describe: 'set config option to provided value',
+		describe: 'Set config option to a supplied value',
 		type: 'string',
 		array: true,
 		global: false
 	},
 	'a': {
 		alias: 'all',
-		describe: 'print all config',
+		describe: 'Print all configuration to command line',
 		type: 'boolean',
 		global: false,
 		conflicts: 's'
 	},
 	't': {
 		alias: 'test',
-		describe: 'test config',
+		describe: 'Test if a supplied config value is valid',
 		type: 'string',
 		array: true,
 		global: false,
