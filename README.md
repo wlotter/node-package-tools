@@ -22,7 +22,7 @@ To build use `npm run babel`.
 
 For testing, run `npm link` in the project root. This will create symlinks to the package and it's executable globally (see [npm link](https://docs.npmjs.com/cli/link.html)). Then you can run the scripts specified in the package.json bin property from anywhere.
 
-Use `npm run babel:watch` when working on the project to recompile as you go!
+Use `npm run watcher` when working on the project to recompile as you go! Then run `npm run watcher:kill` to kill the watcher process.
 
 When you're done, run `npm unlink` in the project to remove these symlinks!
 

@@ -2,4 +2,6 @@
 /target
 /npt.json
 
+/watcher.pid
+
 /.DS_store

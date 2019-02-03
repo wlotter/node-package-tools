@@ -6,6 +6,12 @@ const Chokidar = require('chokidar');
 const spawn = require('child_process').spawn;
 const fs = require('fs');
 
+const loud = process.env.SILENT ? false : true;
+const writeStdout = (message) => {
+	loud && process.stdout.write(message);
+}
+
+writeStdout('Babel watcher getting ready...\n');
 var watcher = Chokidar.watch('src', {persistent: true});
 
 // hack to stop an initial onslaught of compiles
@@ -16,6 +22,7 @@ setTimeout(() => {
 		.on('unlink', onUnlink)
 		.on('error', onError)
 
+	writeStdout('Ready to watch!\nPerforming initial compile...\n');
 	babelRecompileAndChmod()
 }, 500);
 	
@@ -44,18 +51,17 @@ function babelRecompileAndChmod() {
 	]);
 	
 	babel.stdout.on('data', function (data) {
-		process.stdout.write(data);
+		writeStdout(data);
 	});
 	
 	babel.stderr.on('data', function (data) {
-		process.stdout.write(data);
+		writeStdout(data);
 	});
 	
 	babel.on('exit', function (data) {
-		if (data) process.stdout.write('Exit data: ' + data + '\n');
+		if (data) writeStdout('Exit data: ' + data + '\n');
 		fs.chmod('target/index.js', 0o711, err => {
 			if (err) console.log(err);
 		});
 	});
 }
-

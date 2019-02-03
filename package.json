@@ -5,7 +5,8 @@
   "description": "",
   "scripts": {
     "babel": "npx babel src --out-dir target",
-		"babel:watch": "./babel-watcher.js"
+		"watcher": "SILENT=true ./babel-watcher.js & echo $! > watcher.pid",
+		"watcher:kill": "kill -9 $(cat watcher.pid) && rm watcher.pid"
   },
   "bin": {
     "npt": "target/index.js"
