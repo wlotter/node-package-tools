@@ -15,6 +15,8 @@ setTimeout(() => {
 		.on('change', onChange)
 		.on('unlink', onUnlink)
 		.on('error', onError)
+
+	babelRecompileAndChmod()
 }, 500);
 	
 function onAdd() {
