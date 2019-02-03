@@ -21,18 +21,37 @@ export default function tar(argv) {
     Logger.warn(tarName + ' does not have an appropriate file extension!');
   }
 
-  Promise.all(tarSrc.map(src => access(src)))
-    .then(()=> {
+  Promise.all(tarSrc.map(src => 
+  {
+    return access(src)
+      .then(() => {
+        return {
+          type: 'success'
+        };
+      })
+      .catch(err => {
+        Logger.debug(err);
+        Logger.error('Source ' + src + ' could not be accessed.');
+        return {
+          type: 'error',
+          src: src
+        };
+      });
+  }))
+    .then((results)=> {
+      const error = results.find(result => result.type === 'error');
+      if (error) return Promise.reject();
+
       Tar.create({
         gzip: true,
         file: tarName,
         sync: true
       }, tarSrc);
+      
       Logger.result('Created ' + tarName);
     })
-    .catch(err => {
-      Logger.debug(err);
-      Logger.error('One or more of the sources did not exist: ' + tarSrc);
+    .catch(() => {
+      Logger.error('One or more of the sources could not be accessed');
       process.exit(1);
     });
 }
