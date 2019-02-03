@@ -12,13 +12,13 @@ export default function tar(argv) {
   const tarName = name ? name : resolveTarName();
   const tarSrc = src ? src : Config.read('tar.src');
 
-  if (!TAR_REGEX.test(tarName)) {
-    Logger.warn(tarName + ' does not have an appropriate file extension!');
-  }
-
   if (!tarSrc || tarSrc.length < 1) {
     Logger.error('No source files or directories provided');
     return;
+  }
+
+  if (!TAR_REGEX.test(tarName)) {
+    Logger.warn(tarName + ' does not have an appropriate file extension!');
   }
 
   Promise.all(tarSrc.map(src => access(src)))
@@ -33,7 +33,8 @@ export default function tar(argv) {
     .catch(err => {
       Logger.debug(err);
       Logger.error('One or more of the sources did not exist: ' + tarSrc);
-    })
+      process.exit(1);
+    });
 }
 
 function resolveTarName() {

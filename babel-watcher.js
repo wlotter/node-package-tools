@@ -8,9 +8,9 @@ const Chokidar = require('chokidar');
 const spawn = require('child_process').spawn;
 const fs = require('fs');
 
-const loud = process.env.SILENT ? false : true; // eslint-disable-line
+const loud = process.env.SILENT ? false : true;
 const writeStdout = (message) => {
-  loud && process.stdout.write(message); // eslint-disable-line
+  loud && process.stdout.write(message);
 };
 
 writeStdout('Babel watcher getting ready...\n');
