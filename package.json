@@ -5,8 +5,7 @@
   "description": "",
   "scripts": {
     "babel": "npx babel src --out-dir target",
-    "babel:watch": "npx babel src --watch --out-dir target",
-    "relink": "npm unlink && npm run babel && npm link"
+		"babel:watch": "./babel-watcher.js"
   },
   "bin": {
     "npt": "target/index.js"
@@ -16,7 +15,8 @@
   "devDependencies": {
     "@babel/cli": "7.2.3",
     "@babel/core": "7.2.2",
-    "@babel/preset-env": "7.3.1"
+    "@babel/preset-env": "7.3.1",
+    "chokidar": "^2.0.4"
   },
   "dependencies": {
     "chalk": "2.4.2",
