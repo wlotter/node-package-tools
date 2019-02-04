@@ -5,6 +5,8 @@ import Util from 'util';
 import Config from '../../configuration/io';
 import Logger from '../../logger';
 
+import * as PromiseAll from '../../utilities/promise-all';
+
 const TAR_REGEX = /^.*\.(tgz|tar\.gz)$/;
 
 export default function tar(argv) {
@@ -21,37 +23,23 @@ export default function tar(argv) {
     Logger.warn(tarName + ' does not have an appropriate file extension!');
   }
 
-  Promise.all(tarSrc.map(src => 
-  {
-    return access(src)
-      .then(() => {
-        return {
-          type: 'success'
-        };
-      })
-      .catch(err => {
-        Logger.debug(err);
-        Logger.error('Source ' + src + ' could not be accessed.');
-        return {
-          type: 'error',
-          src: src
-        };
-      });
-  }))
-    .then((results)=> {
-      const error = results.find(result => result.type === 'error');
-      if (error) return Promise.reject();
-
+  PromiseAll.all(tarSrc.map(src => access(src)))
+    .catch(err => {
+      const {errors} = err;
+      Logger.error('Could not access paths: ' + errors.map(error => error.result.path));
+      return Promise.reject();
+    })
+    .then(() => {
       Tar.create({
         gzip: true,
         file: tarName,
         sync: true
       }, tarSrc);
-      
+
       Logger.result('Created ' + tarName);
     })
     .catch(() => {
-      Logger.error('One or more of the sources could not be accessed');
+      Logger.error('Error creating tar - exiting code 1');
       process.exit(1);
     });
 }
