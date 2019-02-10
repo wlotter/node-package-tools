@@ -1,9 +1,8 @@
 import Tar from 'tar';
-import Path from 'path';
-import {access, rename} from '../../utilities/promise-fs';
+import {access} from '../../utilities/promise-fs';
 
 import Config from '../../configuration/io';
-import DEPLOYMENT_METHODS from '../../utilities/deployment/index';
+import DEPLOYMENT_METHODS from '../../utilities/deployers/index';
 import Logger from '../../logger';
 
 import * as PromiseAll from '../../utilities/promise-all';
