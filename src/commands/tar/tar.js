@@ -1,6 +1,7 @@
 import Tar from 'tar';
 import FS from 'fs';
 import Util from 'util';
+import Path from 'path';
 
 import Config from '../../configuration/io';
 import Logger from '../../logger';
@@ -29,18 +30,26 @@ export default function tar(argv) {
       Logger.error('Could not access paths: ' + errors.map(error => error.result.path));
       return Promise.reject();
     })
+    .then(() => Tar.create({
+      gzip: true,
+      file: tarName
+    }, tarSrc))
     .then(() => {
-      Tar.create({
-        gzip: true,
-        file: tarName,
-        sync: true
-      }, tarSrc);
-
       Logger.result('Created ' + tarName);
     })
     .catch(() => {
       Logger.error('Error creating tar - exiting code 1');
       process.exit(1);
+    })
+    .then(() => {
+      if (!argv.deploy) return Promise.resolve();
+
+      // only file paths supported as repos atm
+      const pushRepo = Config.read('repo.push');
+      if (!pushRepo) throw new Error('no push repo set!');
+
+      const pushPath = Path.resolve(pushRepo);
+      return rename(tarName, pushPath + '/' + tarName);
     });
 }
 
@@ -55,3 +64,4 @@ function resolveTarName() {
 }
 
 const access = Util.promisify(FS.access);
+const rename = Util.promisify(FS.rename);

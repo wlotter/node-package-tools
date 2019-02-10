@@ -12,6 +12,20 @@ const specification = [
         type: 'array'
       }
     ]
+  },
+  {
+    name: 'repo',
+    type: 'object',
+    options: [
+      {
+        name: 'push',
+        type: 'string'
+      },
+      {
+        name: 'pull',
+        type: 'string'
+      }
+    ]
   }
 ];
 
