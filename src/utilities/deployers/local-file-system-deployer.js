@@ -1,22 +1,51 @@
 import Path from 'path';
 
-import {rename, symlink} from '../promise-fs';
+import {access, rename, symlink, mkdir, unlink} from '../promise-fs';
+import PromiseChain from '../dynamic-promise-chain';
+
 import Config from '../../configuration/io';
+
+
 
 export default class FileSystemDeployer {
 
   static deploy(fileName) {
-    const destinationConfig = Config.read('repo.push.dest');
-    const destinationRoot = Path.resolve(destinationConfig);
-    const destination = Path.join(destinationRoot, fileName);
-    
-    return rename(fileName, destination)
-      .then(() => {
-        const latestLink = Config.read('repo.push.latest')
-        if (!latestLink) return;
+    const respositoryConfig = Config.read('repo.push.dest');
+    const repository = Path.resolve(respositoryConfig);
 
-        return symlink(destination, Path.join(destinationRoot, latestLink));
-      });
+    const packageName = Config.getPackageInfo().name;
+    const packageRepo = Path.join(repository, packageName);
+    const fullPath = Path.join(packageRepo, fileName);
+
+    const linkName = Config.read('repo.push.latest');
+
+    const copyToRepo = () => {
+      return access(repository)
+      .catch(() => {
+        throw new Error('Could not access repository!');
+      })
+      .then(() => access(packageRepo))
+      .catch(() => mkdir(packageRepo))
+      .then(() => rename(fileName, fullPath))
+    }
+
+    const promises = [copyToRepo];
+
+    if (linkName) {
+      const linkPath = Path.join(packageRepo, linkName);
+      const linkLatest = () => {
+        return access(linkPath)
+          .then(() => unlink(linkPath))
+          .catch(() => Promise.resolve())
+          .then(() => symlink(fullPath, linkPath));
+      }
+
+      promises.push(linkLatest);
+    }
+
+    const promiseChain = new PromiseChain(promises);
+
+    return promiseChain.execute();
   }
 
 }
