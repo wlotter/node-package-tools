@@ -23,6 +23,7 @@ class ConfigLayer {
   constructor() {
     this.needsRefresh = true;
     this.config = {};
+    this.packageInfo = null;
   }
 
   refresh() {
@@ -97,12 +98,14 @@ class ConfigLayer {
   }
 
   getPackageInfo() {
-    const packageJSON = JSON.parse(readFileSync('package.json'));
-    const info = {
-      name: packageJSON.name,
-      version: packageJSON.version
+    if (!this.packageInfo) {
+      const packageJSON = JSON.parse(readFileSync('package.json'))
+      this.packageInfo = {
+        name: packageJSON.name,
+        version: packageJSON.version
+      }
     };
-    return info;
+    return this.packageInfo;
   }
 
 }
