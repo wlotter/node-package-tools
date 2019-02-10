@@ -5,8 +5,6 @@ import PromiseChain from '../dynamic-promise-chain';
 
 import Config from '../../configuration/io';
 
-
-
 export default class FileSystemDeployer {
 
   static deploy(fileName) {
@@ -17,7 +15,7 @@ export default class FileSystemDeployer {
     const packageRepo = Path.join(repository, packageName);
     const fullPath = Path.join(packageRepo, fileName);
 
-    const linkName = Config.read('repo.push.latest');
+    const linkName = Config.getPackageInfo().name;
 
     const copyToRepo = () => {
       return access(repository)
@@ -37,7 +35,7 @@ export default class FileSystemDeployer {
         return access(linkPath)
           .then(() => unlink(linkPath))
           .catch(() => Promise.resolve())
-          .then(() => symlink(fullPath, linkPath));
+          .then(() => symlink(fullPath, linkPath + '.tgz'));
       }
 
       promises.push(linkLatest);

@@ -28,16 +28,22 @@ const specification = [
           {
             name: 'dest',
             type: 'string'
-          },
-          {
-            name: 'latest',
-            type: 'string'
           }
         ]
       },
       {
         name: 'pull',
-        type: 'string'
+        type: 'object',
+        options: [
+          {
+            name: 'type',
+            type: 'string'
+          },
+          {
+            name: 'src',
+            type: 'string'
+          }
+        ]
       }
     ]
   }

@@ -18,12 +18,17 @@ require('yargs')
     .positional('option', {
       describe: 'config option to read or modify',
       type: 'string'
-    }).options(configOptions)
+    })
+    .options(configOptions)
   , config)
   .command('tar', TAR_DESC,  yargs => yargs
     .options(tarOptions)
   , tar)
-  .command('install', INSTALL_DESC, yargs => yargs
+  .command('install [package]', INSTALL_DESC, yargs => yargs
+    .positional('package', {
+      describe: '',
+      type: 'string'
+    })
     .options(installOptions)
   , install)
   .argv;
