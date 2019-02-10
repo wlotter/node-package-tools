@@ -1,9 +1,9 @@
 import Tar from 'tar';
-import FS from 'fs';
-import Util from 'util';
 import Path from 'path';
+import {access, rename} from '../../utilities/promise-fs';
 
 import Config from '../../configuration/io';
+import DEPLOYMENT_METHODS from '../../utilities/deployment/index';
 import Logger from '../../logger';
 
 import * as PromiseAll from '../../utilities/promise-all';
@@ -44,12 +44,11 @@ export default function tar(argv) {
     .then(() => {
       if (!argv.deploy) return Promise.resolve();
 
-      // only file paths supported as repos atm
-      const pushRepo = Config.read('repo.push');
-      if (!pushRepo) throw new Error('no push repo set!');
+      const deployType = Config.read('repo.push.type');
+      const deployer = DEPLOYMENT_METHODS[deployType];
 
-      const pushPath = Path.resolve(pushRepo);
-      return rename(tarName, pushPath + '/' + tarName);
+      if (!deployer) throw new Error('undefined deployer!');
+      return deployer.deploy(tarName);
     });
 }
 
@@ -62,6 +61,3 @@ function resolveTarName() {
   const packageInfo = Config.getPackageInfo();
   return packageInfo.name + '-' + packageInfo.version + '.tgz';
 }
-
-const access = Util.promisify(FS.access);
-const rename = Util.promisify(FS.rename);

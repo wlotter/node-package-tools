@@ -19,7 +19,21 @@ const specification = [
     options: [
       {
         name: 'push',
-        type: 'string'
+        type: 'object',
+        options: [
+          {
+            name: 'type',
+            type: 'string'
+          },
+          {
+            name: 'dest',
+            type: 'string'
+          },
+          {
+            name: 'latest',
+            type: 'string'
+          }
+        ]
       },
       {
         name: 'pull',
