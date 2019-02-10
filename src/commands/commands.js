@@ -3,6 +3,7 @@ import Arguments from '../arguments';
 
 import configCommand from './config/config';
 import tarCommand from './tar/tar';
+import installCommand from './install/install';
 
 function preCommand(argv) {
   Object.freeze(argv);
@@ -21,8 +22,10 @@ function commandify(command) {
 
 const config = commandify(configCommand);
 const tar = commandify(tarCommand);
+const install = commandify(installCommand);
 
 export {
   config,
-  tar
+  tar,
+  install
 };
